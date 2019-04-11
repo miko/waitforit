@@ -86,7 +86,7 @@ func pingAddress(conn *Connection, conf *Config, print func(a ...interface{})) e
 				if err != nil {
 					return fmt.Errorf("Error reading body: %v", err)
 				}
-				print("Response Body:" + string(bodyBytes))
+				fmt.Printf("Response Body:" + string(bodyBytes))
 			}
 		}
 
