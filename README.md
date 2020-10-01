@@ -28,6 +28,8 @@ Wait until an address become available.
 - `-header`: List of headers sent in the http(s) ping request
 - `-- `: Execute a post command once the address became available
 - `-body`: Print response body
+- `-expected_json`: The response body should match given JSON (requires -body)
+- `-jq`: subset of response body as a jq path (requires -expected_json)
 
 ### Example
 
@@ -45,6 +47,10 @@ waitforit -address=http://google.com:90 -timeout=20 -retry=500 -debug
 waitforit -address=http://google.com -timeout=20 -debug -- printf "Google Works\!"
 
 waitforit -address=http://google.com -header "Authorization: Basic Zm9vOmJhcg==" -header "X-ID: 111" -debug
+
+waitforit -address https://jsonplaceholder.typicode.com/todos/1 -body -expected_json '{"userId":1}'
+
+waitforit -address https://jsonplaceholder.typicode.com/todos/1 -body -expected_json '1' -jq '.userId'
 ```
 
 #### Using with config file

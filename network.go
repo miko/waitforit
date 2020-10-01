@@ -82,14 +82,25 @@ func pingAddress(conn *Connection, conf *Config, print func(a ...interface{})) e
 			print("Ping http address " + address + " " + resp.Status)
 
 			if conf.Body {
-				bodyBytes, err := ioutil.ReadAll(resp.Body)
-				if err != nil {
-					return fmt.Errorf("Error reading body: %v", err)
+				bodyBytes, err2 := ioutil.ReadAll(resp.Body)
+				if err2 != nil {
+					return fmt.Errorf("Error reading body: %v", err2)
 				}
-				fmt.Printf("Response Body:" + string(bodyBytes))
+				if conf.ExpectedJSON != "" {
+					path := conf.JQPath
+					if path == "" {
+						path = "."
+					}
+					if err = matchSubsetOfJson(path, bodyBytes, conf.ExpectedJSON, print); err != nil {
+						print("Error matching expected JSON")
+					} else {
+						fmt.Printf("Matching response Body:" + string(bodyBytes))
+					}
+				} else {
+					fmt.Printf("Response Body:" + string(bodyBytes))
+				}
 			}
 		}
-
 		if err == nil {
 			if conf.Status > 0 && conf.Status == resp.StatusCode {
 				return nil
@@ -101,7 +112,6 @@ func pingAddress(conn *Connection, conf *Config, print func(a ...interface{})) e
 		if time.Since(start) > timeout {
 			return errors.New(resp.Status)
 		}
-
 		time.Sleep(time.Duration(conf.Retry) * time.Millisecond)
 	}
 }

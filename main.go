@@ -15,16 +15,18 @@ var VERSION string
 
 // Config describes the connection config
 type Config struct {
-	Protocol string            `json:"proto"`
-	Host     string            `json:"host"`
-	Port     int               `json:"port"`
-	Address  string            `json:"address"`
-	Status   int               `json:"status"`
-	Insecure bool              `json:"insecure"`
-	Timeout  int               `json:"timeout"`
-	Retry    int               `json:"retry"`
-	Headers  map[string]string `json:"headers"`
-	Body	 bool			   `json:body`
+	Protocol     string            `json:"proto"`
+	Host         string            `json:"host"`
+	Port         int               `json:"port"`
+	Address      string            `json:"address"`
+	Status       int               `json:"status"`
+	Insecure     bool              `json:"insecure"`
+	Timeout      int               `json:"timeout"`
+	Retry        int               `json:"retry"`
+	Headers      map[string]string `json:"headers"`
+	Body         bool              `json:body`
+	ExpectedJSON string            `json:"expected_json"`
+	JQPath       string            `json:"jqpath"`
 }
 
 // FileConfig describes the structure of the config json file
@@ -64,6 +66,8 @@ func main() { // nolint gocyclo
 	debug := flag.Bool("debug", false, "enable debug")
 	file := flag.String("file", "", "path of json file to read configs from")
 	body := flag.Bool("body", false, "print response body")
+	expected_json := flag.String("expected_json", "", "response body should match this json (http/https only)")
+	jq_path := flag.String("jq", ".", "jq path for respone body matching")
 
 	flag.Var(&fheaders, "header", "list of headers sent in the http(s) ping request")
 
@@ -107,16 +111,18 @@ func main() { // nolint gocyclo
 		fc = FileConfig{
 			Configs: []Config{
 				{
-					Protocol: *proto,
-					Host:     *host,
-					Port:     *port,
-					Address:  *address,
-					Status:   *status,
-					Timeout:  *timeout,
-					Insecure: *insecure,
-					Retry:    *retry,
-					Headers:  headers,
-					Body:	  *body,
+					Protocol:     *proto,
+					Host:         *host,
+					Port:         *port,
+					Address:      *address,
+					Status:       *status,
+					Timeout:      *timeout,
+					Insecure:     *insecure,
+					Retry:        *retry,
+					Headers:      headers,
+					Body:         *body,
+					ExpectedJSON: *expected_json,
+					JQPath:       *jq_path,
 				},
 			},
 		}
