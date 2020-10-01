@@ -3,7 +3,7 @@ package main_test
 import (
 	"testing"
 
-	. "github.com/maxcnunes/waitforit"
+	. "github.com/miko/waitforit"
 )
 
 func TestBuildConn(t *testing.T) {

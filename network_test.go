@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/maxcnunes/waitforit"
+	. "github.com/miko/waitforit"
 )
 
 const regexPort string = `:(\d+)$`
