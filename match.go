@@ -22,9 +22,6 @@ func matchSubsetOfJson(path string, body []byte, expectedjson string, print func
 	if err != nil {
 		return err
 	}
-	if v.(map[string]interface{})["error"] != nil {
-		return fmt.Errorf("Bad query - got error: %s", v.(map[string]interface{})["error"].(string))
-	}
 	query, err := gojq.Parse(path)
 	if err != nil {
 		return err
