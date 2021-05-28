@@ -1,6 +1,6 @@
 FROM golang:alpine
 RUN apk add git
-RUN go get -u -v github.com/miko/waitforit
+RUN go get -u -v github.com/miko/waitforit/v2
 ENTRYPOINT ["/go/bin/waitforit"]
 WORKDIR /app
 RUN which waitforit

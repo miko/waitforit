@@ -11,7 +11,7 @@ import (
 )
 
 // VERSION is definded during the build
-var VERSION string = "v2.4.5"
+var VERSION string = "v2.4.6"
 
 // Config describes the connection config
 type Config struct {
