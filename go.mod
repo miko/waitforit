@@ -1,4 +1,4 @@
-module github.com/miko/waitforit
+module github.com/miko/waitforit/v2
 
 go 1.15
 
